@@ -178,21 +178,21 @@ export const BulkGenerator: React.FC<BulkGeneratorProps> = ({ cardState, setCard
     // Instruction logic based on template
     const getAiPrompt = () => {
         if (cardState.template === 'quote') {
-            return `I need a JSON array of objects. Each object should have the following keys: "quoteText" (the main quote), and "quoteAuthor" (the author, e.g., "— Name"). Please generate [INSERT NUMBER] examples. Output ONLY the valid JSON array inside a standard JSON code block so that I can easily one-click copy and paste it. Example:\n[\n  { "quoteText": "Stay hungry, stay foolish.", "quoteAuthor": "— Steve Jobs" }\n]`;
+            return `I need a JSON array of objects. Each object should have the following keys: "quoteText" (the main quote), "quoteAuthor" (the author, e.g., "— Name"), and "brandName" (the brand watermarking). Please generate [INSERT NUMBER] examples. Output ONLY the valid JSON array inside a standard JSON code block so that I can easily one-click copy and paste it. Example:\n[\n  { "quoteText": "Stay hungry, stay foolish.", "quoteAuthor": "— Steve Jobs", "brandName": "YourBrand" }\n]`;
         } else if (cardState.template === 'qa') {
-            return `I need a JSON array of objects. Each object should have the following keys: "questionText" (a specific question), and "answerText" (the detailed answer). Please generate [INSERT NUMBER] examples. Output ONLY the valid JSON array inside a standard JSON code block so that I can easily one-click copy and paste it. Example:\n[\n  { "questionText": "What is Liquid Glass?", "answerText": "It is a modern design aesthetic." }\n]`;
+            return `I need a JSON array of objects. Each object should have the following keys: "questionText" (a specific question), "answerText" (the detailed answer), and "brandName" (the brand watermarking). Please generate [INSERT NUMBER] examples. Output ONLY the valid JSON array inside a standard JSON code block so that I can easily one-click copy and paste it. Example:\n[\n  { "questionText": "What is Liquid Glass?", "answerText": "It is a modern design aesthetic.", "brandName": "YourBrand" }\n]`;
         } else {
-            return `I need a JSON array of objects. Each object should have the following keys: "imageTitle" (a short title), and "imageDescription" (a descriptive paragraph). Please generate [INSERT NUMBER] examples. Output ONLY the valid JSON array inside a standard JSON code block so that I can easily one-click copy and paste it. Example:\n[\n  { "imageTitle": "Creative Vision", "imageDescription": "Every pixel tells a story." }\n]`;
+            return `I need a JSON array of objects. Each object should have the following keys: "imageTitle" (a short title), "imageDescription" (a descriptive paragraph), and "brandName" (the brand watermarking). Please generate [INSERT NUMBER] examples. Output ONLY the valid JSON array inside a standard JSON code block so that I can easily one-click copy and paste it. Example:\n[\n  { "imageTitle": "Creative Vision", "imageDescription": "Every pixel tells a story.", "brandName": "YourBrand" }\n]`;
         }
     };
 
     const getPreviewJson = () => {
         if (cardState.template === 'quote') {
-            return `[\n  { "quoteText": "Line 1", "quoteAuthor": "Author 1" }\n]`;
+            return `[\n  { "quoteText": "Line 1", "quoteAuthor": "Author 1", "brandName": "YourBrand" }\n]`;
         } else if (cardState.template === 'qa') {
-            return `[\n  { "questionText": "Q1", "answerText": "A1" }\n]`;
+            return `[\n  { "questionText": "Q1", "answerText": "A1", "brandName": "YourBrand" }\n]`;
         } else {
-            return `[\n  { "imageTitle": "Title 1", "imageDescription": "Desc 1" }\n]`;
+            return `[\n  { "imageTitle": "Title 1", "imageDescription": "Desc 1", "brandName": "YourBrand" }\n]`;
         }
     };
 

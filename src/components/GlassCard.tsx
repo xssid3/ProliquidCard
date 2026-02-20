@@ -171,6 +171,16 @@ const GlassCard: React.FC<GlassCardProps> = ({ cardState, setCardState }) => {
         </div>
       )}
 
+      {/* Bottom right Brand Name area inside glass */}
+      <div className="absolute right-6 bottom-5 opacity-50 hover:opacity-100 transition-opacity z-10 flex items-center justify-end">
+        <EditableText
+          value={cardState.brandName}
+          onChange={(v) => updateCard({ brandName: v })}
+          className={`text-[11px] uppercase tracking-[0.2em] font-medium ${textColor} text-right`}
+          placeholder="Brand Name"
+        />
+      </div>
+
       {/* Bottom shine */}
       <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
     </motion.div>

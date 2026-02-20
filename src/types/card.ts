@@ -28,4 +28,5 @@ export interface CardState {
   fontFamily: string;
   imagePosition: ImagePosition;
   imageShape: ImageShape;
+  brandName: string;
 }

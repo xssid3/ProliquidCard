@@ -25,6 +25,7 @@ const DEFAULT_STATE: CardState = {
   fontFamily: 'Inter',
   imagePosition: 'left',
   imageShape: 'rect',
+  brandName: 'YourBrand',
 };
 
 const Index = () => {
