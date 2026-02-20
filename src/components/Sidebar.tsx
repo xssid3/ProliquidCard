@@ -1,20 +1,31 @@
 import React, { useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CardState, AspectRatio, GlassMode } from '@/types/card';
+import { CardState, AspectRatio, GlassMode, ImagePosition, ImageShape } from '@/types/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import TemplatePicker from './TemplatePicker';
 import GradientPicker from './GradientPicker';
 import IconPicker from './IconPicker';
-import ExportButton from './ExportButton';
 import {
   Image, Upload, Square, Monitor, Smartphone, Crop,
-  Sun, Moon, X, Layers, Palette, Grid3X3, Sparkles, Download,
+  Sun, Moon, X, Layers, Palette, Grid3X3, Sparkles, Type
 } from 'lucide-react';
+
+const FONTS = [
+  { label: 'Inter', value: 'Inter', group: 'Clean & Modern' },
+  { label: 'Roboto', value: 'Roboto', group: 'Clean & Modern' },
+  { label: 'Poppins', value: 'Poppins', group: 'Clean & Modern' },
+  { label: 'Playfair Display', value: 'Playfair Display', group: 'Elegant / Serif' },
+  { label: 'Hind Siliguri', value: 'Hind Siliguri', group: 'Bengali' },
+  { label: 'Noto Sans Bengali', value: 'Noto Sans Bengali', group: 'Bengali' },
+  { label: 'Galada', value: 'Galada', group: 'Bengali' },
+  { label: 'Mina', value: 'Mina', group: 'Bengali' },
+];
 
 interface SidebarProps {
   cardState: CardState;
   setCardState: React.Dispatch<React.SetStateAction<CardState>>;
   canvasRef: React.RefObject<HTMLDivElement>;
+  className?: string;
 }
 
 const ASPECT_RATIOS: { value: AspectRatio; label: string; icon: React.ReactNode }[] = [
@@ -36,7 +47,7 @@ const Section: React.FC<{ title: string; icon: React.ReactNode; children: React.
   </div>
 );
 
-const Sidebar: React.FC<SidebarProps> = ({ cardState, setCardState, canvasRef }) => {
+const Sidebar: React.FC<SidebarProps> = ({ cardState, setCardState, canvasRef, className = '' }) => {
   const bgUploadRef = useRef<HTMLInputElement>(null);
   const cardImgUploadRef = useRef<HTMLInputElement>(null);
 
@@ -45,16 +56,24 @@ const Sidebar: React.FC<SidebarProps> = ({ cardState, setCardState, canvasRef })
   const handleBgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const url = URL.createObjectURL(file);
-    update({ backgroundImage: url });
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const url = event.target?.result as string;
+      if (url) update({ backgroundImage: url });
+    };
+    reader.readAsDataURL(file);
     e.target.value = '';
   };
 
   const handleCardImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const url = URL.createObjectURL(file);
-    update({ cardImage: url });
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const url = event.target?.result as string;
+      if (url) update({ cardImage: url });
+    };
+    reader.readAsDataURL(file);
     e.target.value = '';
   };
 
@@ -63,9 +82,7 @@ const Sidebar: React.FC<SidebarProps> = ({ cardState, setCardState, canvasRef })
       initial={{ x: -30, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.4, ease: 'easeOut' }}
-      className="w-[280px] flex-shrink-0 flex flex-col h-full
-        bg-white/8 backdrop-blur-2xl border-r border-white/10
-        shadow-[inset_-1px_0_0_rgba(255,255,255,0.05)]"
+      className={`flex-shrink-0 flex flex-col h-full bg-white/8 backdrop-blur-2xl border-r border-white/10 shadow-[inset_-1px_0_0_rgba(255,255,255,0.05)] ${className || 'w-[280px]'}`}
     >
       {/* Header */}
       <div className="px-5 py-4 border-b border-white/10 flex-shrink-0">
@@ -104,11 +121,10 @@ const Sidebar: React.FC<SidebarProps> = ({ cardState, setCardState, canvasRef })
                 <button
                   key={value}
                   onClick={() => update({ aspectRatio: value })}
-                  className={`flex flex-col items-center gap-1 py-2 px-1 rounded-lg border text-xs transition-all ${
-                    cardState.aspectRatio === value
-                      ? 'bg-white/20 border-white/40 text-white'
-                      : 'bg-white/5 border-white/10 text-white/40 hover:bg-white/10 hover:text-white/70'
-                  }`}
+                  className={`flex flex-col items-center gap-1 py-2 px-1 rounded-lg border text-xs transition-all ${cardState.aspectRatio === value
+                    ? 'bg-white/20 border-white/40 text-white'
+                    : 'bg-white/5 border-white/10 text-white/40 hover:bg-white/10 hover:text-white/70'
+                    }`}
                 >
                   {icon}
                   <span className="font-medium">{label}</span>
@@ -126,16 +142,44 @@ const Sidebar: React.FC<SidebarProps> = ({ cardState, setCardState, canvasRef })
                 <button
                   key={mode}
                   onClick={() => update({ glassMode: mode })}
-                  className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-md text-xs font-medium transition-all ${
-                    cardState.glassMode === mode
-                      ? 'bg-white/20 text-white'
-                      : 'text-white/40 hover:text-white/70'
-                  }`}
+                  className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-md text-xs font-medium transition-all ${cardState.glassMode === mode
+                    ? 'bg-white/20 text-white'
+                    : 'text-white/40 hover:text-white/70'
+                    }`}
                 >
                   {mode === 'light' ? <Sun size={12} /> : <Moon size={12} />}
                   {mode.charAt(0).toUpperCase() + mode.slice(1)}
                 </button>
               ))}
+            </div>
+          </Section>
+
+          <div className="h-px bg-white/8" />
+
+          {/* Typography */}
+          <Section title="Typography" icon={<Type size={13} />}>
+            <div className="relative">
+              <select
+                value={cardState.fontFamily}
+                onChange={(e) => update({ fontFamily: e.target.value })}
+                className="w-full appearance-none bg-white/5 border border-white/10 hover:border-white/20 text-white text-xs py-2 pl-3 pr-8 rounded-lg outline-none transition-colors"
+                style={{ fontFamily: cardState.fontFamily }}
+              >
+                {Array.from(new Set(FONTS.map(f => f.group))).map(group => (
+                  <optgroup key={group} label={group} className="bg-[#1a1a2e] text-white/50">
+                    {FONTS.filter(f => f.group === group).map(font => (
+                      <option key={font.value} value={font.value} className="text-white hover:bg-white/10">
+                        {font.label}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/40">
+                <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 1L5 5L9 1" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
             </div>
           </Section>
 
@@ -209,6 +253,40 @@ const Sidebar: React.FC<SidebarProps> = ({ cardState, setCardState, canvasRef })
                     className="hidden"
                     onChange={handleCardImgUpload}
                   />
+
+                  <div className="mt-4 flex flex-col gap-3">
+                    <div>
+                      <label className="text-[10px] text-white/50 uppercase tracking-wider font-semibold mb-1.5 block">Position</label>
+                      <div className="flex gap-1 p-1 rounded-lg bg-white/5 border border-white/10">
+                        {(['left', 'top', 'right'] as ImagePosition[]).map((pos) => (
+                          <button
+                            key={pos}
+                            onClick={() => update({ imagePosition: pos })}
+                            className={`flex-1 py-1.5 rounded-md text-xs font-medium tracking-wide capitalize transition-all ${cardState.imagePosition === pos ? 'bg-white/20 text-white' : 'text-white/40 hover:text-white/70'
+                              }`}
+                          >
+                            {pos}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="text-[10px] text-white/50 uppercase tracking-wider font-semibold mb-1.5 block">Shape</label>
+                      <div className="flex gap-1 p-1 rounded-lg bg-white/5 border border-white/10">
+                        {(['rect', 'square', 'circle'] as ImageShape[]).map((shape) => (
+                          <button
+                            key={shape}
+                            onClick={() => update({ imageShape: shape })}
+                            className={`flex-1 py-1.5 rounded-md text-xs font-medium tracking-wide capitalize transition-all ${cardState.imageShape === shape ? 'bg-white/20 text-white' : 'text-white/40 hover:text-white/70'
+                              }`}
+                          >
+                            {shape}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 </Section>
               </motion.div>
             )}
@@ -222,13 +300,6 @@ const Sidebar: React.FC<SidebarProps> = ({ cardState, setCardState, canvasRef })
               selected={cardState.selectedIcon}
               onSelect={(name) => update({ selectedIcon: name })}
             />
-          </Section>
-
-          <div className="h-px bg-white/8" />
-
-          {/* Export */}
-          <Section title="Export" icon={<Download size={13} />}>
-            <ExportButton canvasRef={canvasRef} />
           </Section>
 
           <div className="pb-4" />

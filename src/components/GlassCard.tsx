@@ -40,8 +40,8 @@ const GlassCard: React.FC<GlassCardProps> = ({ cardState, setCardState }) => {
   const { template, glassMode, selectedIcon } = cardState;
 
   const glassBg = glassMode === 'light'
-    ? 'bg-white/15 border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.18)]'
-    : 'bg-black/20 border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]';
+    ? 'bg-white/20 border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.18)]'
+    : 'bg-black/40 border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.5)]';
 
   const textColor = 'text-white';
   const subTextColor = 'text-white/70';
@@ -60,7 +60,8 @@ const GlassCard: React.FC<GlassCardProps> = ({ cardState, setCardState }) => {
   return (
     <motion.div
       layout
-      className={`relative w-full h-full rounded-2xl border backdrop-blur-2xl ${glassBg} p-7 flex flex-col overflow-hidden`}
+      className={`relative w-full h-full rounded-2xl border backdrop-blur-3xl ${glassBg} p-7 flex flex-col overflow-hidden`}
+      style={{ fontFamily: cardState.fontFamily }}
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
@@ -125,24 +126,32 @@ const GlassCard: React.FC<GlassCardProps> = ({ cardState, setCardState }) => {
 
       {/* === IMAGE + TEXT TEMPLATE === */}
       {template === 'image-text' && (
-        <div className="flex flex-1 gap-5 items-stretch">
+        <div className={`flex flex-1 gap-5 ${cardState.imagePosition === 'top'
+          ? 'flex-col items-center justify-center text-center'
+          : cardState.imagePosition === 'right'
+            ? `flex-row-reverse ${cardState.imageShape === 'rect' ? 'items-stretch' : 'items-center'}`
+            : `flex-row ${cardState.imageShape === 'rect' ? 'items-stretch' : 'items-center'}`
+          }`}>
           {/* Image container */}
           <div
-            className={`relative flex-shrink-0 w-2/5 rounded-xl overflow-hidden border ${subPanelBg} flex items-center justify-center cursor-pointer group`}
+            className={`relative flex-shrink-0 overflow-hidden border ${subPanelBg} flex items-center justify-center cursor-pointer group transition-all duration-300 ${cardState.imagePosition === 'top'
+              ? cardState.imageShape === 'circle' ? 'w-32 h-32 rounded-full' : cardState.imageShape === 'square' ? 'w-32 h-32 rounded-xl' : 'w-full h-40 rounded-xl'
+              : cardState.imageShape === 'circle' ? 'w-1/3 aspect-square rounded-full' : cardState.imageShape === 'square' ? 'w-1/3 aspect-square rounded-xl' : 'w-2/5 rounded-xl'
+              }`}
             onClick={() => document.getElementById('card-image-upload')?.click()}
           >
             {cardState.cardImage ? (
               <img src={cardState.cardImage} alt="card" className="w-full h-full object-cover" />
             ) : (
-              <div className="flex flex-col items-center gap-2 text-white/40 group-hover:text-white/60 transition-colors p-4 text-center">
+              <div className="flex flex-col items-center justify-center gap-2 text-white/40 group-hover:text-white/60 transition-colors p-4 text-center w-full h-full">
                 <LucideIcons.ImageIcon size={28} strokeWidth={1} />
-                <p className="text-xs">Click or paste image</p>
+                <p className="text-xs">Image</p>
               </div>
             )}
           </div>
 
           {/* Text area */}
-          <div className="flex flex-col flex-1 justify-center gap-3">
+          <div className={`flex flex-col flex-1 justify-center gap-3 ${cardState.imagePosition === 'top' ? 'items-center' : ''}`}>
             <EditableText
               value={cardState.imageTitle}
               onChange={(v) => updateCard({ imageTitle: v })}
