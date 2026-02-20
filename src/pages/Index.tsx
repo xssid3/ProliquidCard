@@ -133,13 +133,8 @@ const Index = () => {
             </div>
 
             {/* Always visible Canvas */}
-            <div className="w-full shrink-0 flex items-center justify-center relative bg-black/20 overflow-hidden z-20 h-[38vh] xl:h-auto">
-              <div className={`transform origin-center transition-transform duration-500 w-full flex justify-center ${cardState.aspectRatio === '9:16' ? 'scale-[0.5]' :
-                  cardState.aspectRatio === '4:5' ? 'scale-[0.55]' :
-                    cardState.aspectRatio === '1:1' ? 'scale-[0.65]' : 'scale-[0.75]'
-                }`}>
-                <CardCanvas cardState={cardState} setCardState={setCardState} canvasRef={canvasRef} />
-              </div>
+            <div className="w-full shrink-0 flex items-center justify-center relative bg-black/20 overflow-hidden z-20 h-[38vh]">
+              <CardCanvas cardState={cardState} setCardState={setCardState} canvasRef={canvasRef} />
             </div>
 
             {/* Scrollable Customization Menus below Canvas */}

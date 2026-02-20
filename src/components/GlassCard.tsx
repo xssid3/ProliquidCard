@@ -84,7 +84,7 @@ const GlassCard: React.FC<GlassCardProps> = ({ cardState, setCardState }) => {
           <EditableText
             value={cardState.quoteText}
             onChange={(v) => updateCard({ quoteText: v })}
-            className={`text-xl md:text-2xl font-light leading-relaxed ${textColor} -mt-6`}
+            className={`text-2xl font-light leading-relaxed ${textColor} -mt-6`}
             placeholder="Your quote here…"
             multiLine
           />
@@ -106,7 +106,7 @@ const GlassCard: React.FC<GlassCardProps> = ({ cardState, setCardState }) => {
             <EditableText
               value={cardState.questionText}
               onChange={(v) => updateCard({ questionText: v })}
-              className={`text-base md:text-lg font-medium ${textColor}`}
+              className={`text-lg font-medium ${textColor}`}
               placeholder="What is your question?"
               multiLine
             />
@@ -116,7 +116,7 @@ const GlassCard: React.FC<GlassCardProps> = ({ cardState, setCardState }) => {
             <EditableText
               value={cardState.answerText}
               onChange={(v) => updateCard({ answerText: v })}
-              className={`text-sm md:text-base ${textColor} leading-relaxed`}
+              className={`text-base ${textColor} leading-relaxed`}
               placeholder="Type the answer here…"
               multiLine
             />
@@ -155,7 +155,7 @@ const GlassCard: React.FC<GlassCardProps> = ({ cardState, setCardState }) => {
             <EditableText
               value={cardState.imageTitle}
               onChange={(v) => updateCard({ imageTitle: v })}
-              className={`text-lg md:text-xl font-semibold ${textColor} leading-snug`}
+              className={`text-xl font-semibold ${textColor} leading-snug`}
               placeholder="Title"
               multiLine
             />
