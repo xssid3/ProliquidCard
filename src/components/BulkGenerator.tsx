@@ -206,7 +206,7 @@ export const BulkGenerator: React.FC<BulkGeneratorProps> = ({ cardState, setCard
         <>
             <button
                 onClick={() => setIsOpen(true)}
-                className="flex items-center justify-center gap-2 px-4 py-2 shrink-0 rounded-lg border border-purple-500/30 bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 text-sm font-semibold tracking-wide transition-all md:ml-auto w-full md:w-auto"
+                className="flex items-center justify-center gap-2 px-4 py-2 shrink-0 rounded-lg border border-purple-500/30 bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 text-sm font-semibold tracking-wide transition-all md:ml-auto flex-1 md:w-auto md:flex-none"
             >
                 <FileJson size={16} />
                 Bulk Generation

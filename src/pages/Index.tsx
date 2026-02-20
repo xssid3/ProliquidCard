@@ -103,8 +103,9 @@ const Index = () => {
               <Panel className="flex flex-col relative h-full">
                 {/* Top Header for Export/Bulk Gen */}
                 <div className="w-full shrink-0 border-b border-white/10 bg-white/5 backdrop-blur-md flex items-center justify-between px-6 py-3 z-[100]">
-                  <ExportButton canvasRef={canvasRef} />
-                  <BulkGenerator cardState={cardState} setCardState={setCardState} canvasRef={canvasRef} />
+                  <ExportButton canvasRef={canvasRef}>
+                    <BulkGenerator cardState={cardState} setCardState={setCardState} canvasRef={canvasRef} />
+                  </ExportButton>
                 </div>
 
                 {/* Canvas Area */}
@@ -124,15 +125,21 @@ const Index = () => {
           <div className="flex flex-col w-full h-full overflow-hidden">
             {/* Sticky Top Header */}
             <div className="w-full shrink-0 border-b border-white/10 bg-black/60 backdrop-blur-xl flex flex-col items-center px-4 py-3 gap-3 z-[100]">
-              <div className="flex w-full flex-col gap-[10px]">
-                <ExportButton canvasRef={canvasRef} />
-                <BulkGenerator cardState={cardState} setCardState={setCardState} canvasRef={canvasRef} />
+              <div className="flex w-full items-center justify-center">
+                <ExportButton canvasRef={canvasRef}>
+                  <BulkGenerator cardState={cardState} setCardState={setCardState} canvasRef={canvasRef} />
+                </ExportButton>
               </div>
             </div>
 
             {/* Always visible Canvas */}
-            <div className="w-full shrink-0 flex items-center justify-center relative bg-black/20 py-6 z-20">
-              <CardCanvas cardState={cardState} setCardState={setCardState} canvasRef={canvasRef} />
+            <div className="w-full shrink-0 flex items-center justify-center relative bg-black/20 overflow-hidden z-20 h-[38vh] xl:h-auto">
+              <div className={`transform origin-center transition-transform duration-500 w-full flex justify-center ${cardState.aspectRatio === '9:16' ? 'scale-[0.5]' :
+                  cardState.aspectRatio === '4:5' ? 'scale-[0.55]' :
+                    cardState.aspectRatio === '1:1' ? 'scale-[0.65]' : 'scale-[0.75]'
+                }`}>
+                <CardCanvas cardState={cardState} setCardState={setCardState} canvasRef={canvasRef} />
+              </div>
             </div>
 
             {/* Scrollable Customization Menus below Canvas */}

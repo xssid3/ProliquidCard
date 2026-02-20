@@ -6,9 +6,10 @@ import { ExportFormat } from '@/types/card';
 
 interface ExportButtonProps {
   canvasRef: React.RefObject<HTMLDivElement>;
+  children?: React.ReactNode;
 }
 
-const ExportButton: React.FC<ExportButtonProps> = ({ canvasRef }) => {
+const ExportButton: React.FC<ExportButtonProps> = ({ canvasRef, children }) => {
   const [format, setFormat] = useState<ExportFormat>('png');
   const [resolution, setResolution] = useState<number>(2);
   const [loading, setLoading] = useState(false);
@@ -96,6 +97,8 @@ const ExportButton: React.FC<ExportButtonProps> = ({ canvasRef }) => {
         )}
         {loading ? 'Exporting…' : `Download`}
       </motion.button>
+
+      {children}
     </div>
   );
 };
