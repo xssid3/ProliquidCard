@@ -4,6 +4,12 @@ export default {
   darkMode: ["class"],
   content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
   prefix: "",
+  safelist: [
+    // Glass opacity utilities used dynamically
+    'bg-white/8', 'bg-white/5', 'bg-white/10', 'bg-white/15', 'bg-white/20', 'bg-white/25',
+    'bg-black/15', 'bg-black/20',
+    'border-white/8', 'border-white/10', 'border-white/15', 'border-white/20', 'border-white/30', 'border-white/40',
+  ],
   theme: {
     container: {
       center: true,
